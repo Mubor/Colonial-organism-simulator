@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Start
+  - bacteria
+  - bacteriaDetailed
+  - bacteriaInfected
+  - bacteriaInfectedDetailed
+  - bacteriaDead
+  - bacteriaDeadDetailed
+  - cianobacteria
+  - cianobacteriaDetailed
+  - cianobacteriaInfected
+  - cianobacteriaInfectedDetailed
+  - cianobacteriaDead
+  - cianobacteriaDeadDetailed
+  - virus
+  - virusDetailed
+  - virusDead
+  - virusDeadDetailed
+  - eukaryote
+  - preEukaryote
+  - eukaryoteDetailed
+  - preEukaryoteDetailed
+  - eukaryoteDead
+  - preEukaryoteDead
+  - eukaryoteDeadDetailed
+  - preEukaryoteDeadDetailed
+  - eukaryoteInfected
+  - eukaryoteInfectedDetailed
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
