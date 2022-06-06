@@ -53,21 +53,15 @@
     <UnityVersion>2020.3.0f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\PreEukaryote.cs" />
-    <Compile Include="Assets\Scripts\infectedCell.cs" />
     <Compile Include="Assets\Scripts\ColliderEvent.cs" />
-    <Compile Include="Assets\Scripts\Eukaryote.cs" />
     <Compile Include="Assets\Scripts\CreateNewObj.cs" />
     <Compile Include="Assets\Scripts\UI_Control.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\Virus.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
-    <Compile Include="Assets\Scripts\DeadCell.cs" />
     <Compile Include="Assets\Scripts\Bacteria.cs" />
-    <Compile Include="Assets\Scripts\Cell.cs" />
     <Compile Include="Assets\Scripts\World.cs" />
     <Compile Include="Assets\Scripts\GameTool.cs" />
-    <Compile Include="Assets\Scripts\SubsidiaryCell.cs" />
     <Compile Include="Assets\Scripts\CianoBacteria.cs" />
   </ItemGroup>
   <ItemGroup>

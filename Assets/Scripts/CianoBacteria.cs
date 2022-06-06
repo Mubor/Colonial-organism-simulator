@@ -4,167 +4,149 @@ using UnityEngine;
 
 public class CianoBacteria : MonoBehaviour
 {
-    protected GameObject cell;
-    protected GameObject canvas;
     protected GameObject GenerationPlace;
+    protected GameObject virusPrefab;
+    protected Material deadCellMaterial;
+
+    public GameObject Parent;
 
     protected int Speed { get; set; }
-    protected int DirectionChange { get; set; }
     protected float LocalScale { get; set; }
     public float HP { get; set; }
     public float hpChanger;
-    float maxScale;
-    float scaleChanger;
-    float scaleBuffer;
-    int numPrefab;
-    bool timechanged;
-    //cell born
-    public bool hasDaughter;
-    bool newDirection;
-    Quaternion direction;
-    int daughterCount;
 
-    public void ChangeVariablehasDaughter()
-    {
-        hasDaughter = false;
-        daughterCount++;
-    }
+    int daughterCount;
+    int infectLevel;
+    bool isAlive;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        //setting variables
-        numPrefab = 1;
-        Speed = PlayerPrefs.GetInt("SpeedCiano");
-        hpChanger = 0.01f;
-        maxScale = 4.5f;
-        scaleChanger = 0.001f;
-        scaleBuffer = 0;
-        DirectionChange = 1000;
-        GenerationPlace = GameObject.Find("GenerationPlace");
-        canvas = GameObject.Find("Canvas");
+        deadCellMaterial = Resources.LoadAll<Material>("Materials")[6];
+        virusPrefab = Resources.LoadAll<GameObject>("Virus")[0];
 
-        //Add physic and cell transform
-        cell.transform.localScale = new Vector3(LocalScale, LocalScale, LocalScale);
-        cell.AddComponent<Movement>().setParams(Speed);
-        cell.AddComponent<ColliderEvent>().Params(cell, true);
+        Speed = PlayerPrefs.GetInt("SpeedCiano");
+        GenerationPlace = GameObject.Find("GenerationPlace");
+
+        infectLevel = 0;
+        isAlive = true;
+        hpChanger = 0.01f;
+
+        SetSize(LocalScale);
+
+        gameObject.AddComponent<Movement>().setParams(Speed);
+        gameObject.AddComponent<ColliderEvent>().Params(true);
     }
+
     private void FixedUpdate()
     {
-
-        //Prefab changing
-        //if (Camera.main.transform.position.y < 350.0f && PlayerPrefs.GetInt("NeedDoDetailingCiano") == 0)
-        //{
-        //    DetailedPrefabs();
-        //    PlayerPrefs.SetInt("NeedDoSimplificationCiano", 0);
-        //}
-        //else if (Camera.main.transform.position.y >= 350.0f && PlayerPrefs.GetInt("NeedDoSimplificationCiano") == 0)
-        //{
-        //    SimplePrefabs();
-        //    PlayerPrefs.SetInt("NeedDoDetailingCiano", 0);
-        //}
-
-        HP += hpChanger;
-        if (HP >= 100 && !hasDaughter)
-            scaleBuffer += scaleChanger;
-        if (scaleBuffer >= 0.2f)
+        if (Camera.main.transform.position.y < 350.0f && PlayerPrefs.GetInt("NeedDoDetailingCiano") == 0)
         {
-            LocalScale += scaleBuffer;
-            cell.transform.localScale = new Vector3(LocalScale, LocalScale, LocalScale);
-            scaleBuffer = 0;
+            gameObject.transform.GetChild(2).gameObject.SetActive(true);
+            PlayerPrefs.SetInt("NeedDoSimplificationCiano", 0);
+        }
+        else if (Camera.main.transform.position.y >= 350.0f && PlayerPrefs.GetInt("NeedDoSimplificationCiano") == 0)
+        {
+            gameObject.transform.GetChild(2).gameObject.SetActive(false);
+            PlayerPrefs.SetInt("NeedDoDetailingCiano", 0);
+        }
+
+        if (isAlive && infectLevel == 0)
+        {
+            HP += hpChanger;
+
+            if (HP >= 100)
+            {
+                SetSize(LocalScale + 0.001f);
+            }
         }
     }
+
     void Update()
     {
-        
-        if (Time.timeScale != 0)
+        if (Time.timeScale != 0 && isAlive)
         {
             if (HP <= 0 || daughterCount == 2)
-                DeathOfCell(cell);
-            canvas.GetComponent<World>().OxygenUp(0.5f);
-            if (cell.transform.localScale.x >= maxScale && !hasDaughter)
             {
-                if (Camera.main.transform.position.y >= 350.0f)
-                    GenerationPlace.GetComponent<CreateNewObj>().CreateSubsidiaryCell(cell, cell.tag, 1, false, 0f);
-                else
-                    GenerationPlace.GetComponent<CreateNewObj>().CreateSubsidiaryCell(cell, cell.tag, 1, true, 0f);
-                hasDaughter = true;
+                DeathOfCell();
             }
-            //timechanged = canvas.GetComponent<World>().tick == 0 ? true : false;
 
-            //if (timechanged)
-            //{
-            //    print("SUKA VSE PRAVILNO");
-            //    if (canvas.GetComponent<World>().GetTime())
-            //        hpChanger = 0.01f;
-            //    else
-            //        hpChanger = -0.01f;
-            //    timechanged = false;
-            //}
-            
+            if (gameObject.transform.localScale.x >= 4.5f && infectLevel == 0)
+            {
+                Born();
+            }
+
+            //Infect level rise (more viruses inside)
+            if( Random.Range(0, 200) == 0 && infectLevel > 0)
+            {
+                Infect();
+            }
+
+            if(infectLevel > 7)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    GenerationPlace.GetComponent<CreateNewObj>().CreateSubsidiaryCell(gameObject, 2);
+                }
+                DeathOfCell(true);
+            }
         }
     }
-    //для доступа изменения размера из скрипта дочерней клетки
-    public void ScaleChanger(float localScale)
-    {
-        LocalScale += localScale;
-        cell.transform.localScale = new Vector3(LocalScale, LocalScale, LocalScale);
-    }
+   
     public void HPChanger(bool time)
     {
         hpChanger = time ? 0.01f : -0.01f;
     }
 
-    void DeathOfCell(GameObject thisObject)
+    public void Infect()
     {
-        if (Camera.main.transform.position.y >= 150.0f)  //Камера выше 350
-            GenerationPlace.GetComponent<CreateNewObj>().RecreateObjDead(thisObject, thisObject.name + "_Dead", "cianobacteriaDead", numPrefab, false); //bacteriaDead
-        else
-            GenerationPlace.GetComponent<CreateNewObj>().RecreateObjDead(thisObject, thisObject.name + "_Dead", "cianobacteriaDeadDetailed", numPrefab, true);  //bacteriaDetailed   == bacteria + DeadDetailed
+        GameObject virus = Instantiate(virusPrefab, gameObject.transform.position, Quaternion.identity) as GameObject;
+
+        virus.transform.SetParent(gameObject.transform, false);
+        virus.transform.localPosition = new Vector3(Random.Range(-0.400f, 0.400f), Random.Range(-0.400f, 0.400f), Random.Range(-0.400f, 0.400f));
+
+        infectLevel++;
+        gameObject.tag = "cianobacteriaInfected";
     }
 
-    //void DetailedPrefabs()
-    //{
-    //    switch (this.cell.tag)
-    //    {
-    //        case "cianobacteria":
-    //            PlayerPrefs.SetInt("NeedDoDetailingCiano", 0);
-    //            break;
-    //        default:
-    //            //print("U do some mistake!");
-    //            PlayerPrefs.SetInt("NeedDoDetailingCiano", 1);
-    //            break;
-    //    }
-    //    if (PlayerPrefs.GetInt("NeedDoDetailingCiano") == 0)
-    //        GenerationPlace.GetComponent<CreateNewObj>().RecreateObj(this.cell, this.cell.name, this.cell.tag + "Detailed", numPrefab, true, HP, hasDaughter, cell.GetComponent<MotionSphere>().direction, daughterCount);
-    //}
-    //void SimplePrefabs()
-    //{
-    //    switch (this.cell.tag)
-    //    {
-    //        case "cianobacteriaDetailed":
-    //            PlayerPrefs.SetInt("NeedDoSimplificationCiano", 0);
-    //            break;
-
-    //        default:
-    //            //print("U do some mistake!");
-    //            PlayerPrefs.SetInt("NeedDoSimplificationCiano", 1);
-    //            break;
-    //    }
-    //    if (PlayerPrefs.GetInt("NeedDoSimplificationCiano") == 0)
-    //        GenerationPlace.GetComponent<CreateNewObj>().RecreateObj(this.cell, this.cell.name, this.cell.tag.Remove(this.cell.tag.Length - 8), numPrefab, false, HP, hasDaughter, cell.GetComponent<MotionSphere>().direction, daughterCount);
-    //}
-
-    public void SetParams(GameObject obj, string tag, string name, float hp, float scale, bool hasdaughter, bool newdirection, Quaternion direction, int daughtercnt)
+    void SetSize(float scale)
     {
-        //setting params
-        cell = obj;
         LocalScale = scale;
-        cell.tag = tag;
-        cell.name = name;
-        HP = hp;
-        hasDaughter = hasdaughter;
-        newDirection = newdirection;
-        this.direction = direction;
-        daughterCount = daughtercnt;
+        gameObject.transform.localScale = new Vector3(LocalScale, LocalScale, LocalScale);
+    }
+
+    void DeathOfCell(bool deathByInfection = false)
+    {
+        Destroy(gameObject.GetComponent<Movement>());
+        gameObject.transform.GetChild(1).gameObject.GetComponent<MeshRenderer>().material = deadCellMaterial;
+
+        if(deathByInfection)
+        {
+            for (int i = 3; i < gameObject.transform.childCount; i++)
+            {
+                Destroy(gameObject.transform.GetChild(i).gameObject);
+            }
+        }
+
+        isAlive = false;
+    }
+
+    void Born()
+    {
+        SetSize(3f);
+        GenerationPlace.GetComponent<CreateNewObj>().CreateSubsidiaryCell(gameObject, 1);
+        daughterCount++;
+    }
+
+    public void SetParams(GameObject parent)
+    {
+        PlayerPrefs.SetInt("CountCianobacteria", PlayerPrefs.GetInt("CountCianobacteria") + 1);
+        gameObject.name = "cianobacteria_" + PlayerPrefs.GetInt("CountCianobacteria");
+        gameObject.transform.Rotate(0, Random.Range(-180, 180), 0);
+
+        Parent = parent;
+        LocalScale = 3f;
+        HP = Random.Range(-10f, 81f);
     }
 }

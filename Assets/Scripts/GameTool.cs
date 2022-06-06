@@ -7,7 +7,6 @@ public class GameTool : MonoBehaviour
 {
     // Start is called before the first frame update
     GameObject[] detailedPrefabs;
-    GameObject[] simplePrefabs;
     GameObject thisObject;
 
     int toolMod;
@@ -20,32 +19,26 @@ public class GameTool : MonoBehaviour
     void Start()
     {
         detailedPrefabs = Resources.LoadAll<GameObject>("DetailedCells");
-        simplePrefabs = Resources.LoadAll<GameObject>("SimpleCells");
 
         toolMod = -1;
     }
 
     // Update is called once per frame
-    void CreateNewObject(Vector3 hit, int numprefab, string tag, string name, int spd, int directionChange, float scale, float hp, int maxHeight)
+    void CreateNewObject(Vector3 hit, int numprefab)
     {
-        if (Camera.main.transform.position.y >= maxHeight)
-            thisObject = Instantiate(simplePrefabs[numprefab], hit, Quaternion.identity) as GameObject;
-        else
-        {
-            thisObject = Instantiate(detailedPrefabs[numprefab], hit, Quaternion.identity) as GameObject;
-            tag += "Detailed";
-        }
-
+       
+        thisObject = Instantiate(detailedPrefabs[numprefab], hit, Quaternion.identity) as GameObject;
+    
         switch (numprefab)
         {
             case 0:
-                thisObject.AddComponent<Bacteria>().SetParams(thisObject, tag, name, hp, scale, false, true, Quaternion.identity, 0);
+                thisObject.AddComponent<Bacteria>().SetParams();
                 break;
             case 1:
-                thisObject.AddComponent<CianoBacteria>().SetParams(thisObject, tag, name, hp, scale, false, true, Quaternion.identity, 0);
+                thisObject.AddComponent<CianoBacteria>().SetParams(thisObject);
                 break;
             case 2:
-                thisObject.AddComponent<Virus>().SetParams(thisObject, tag, name, hp, true, Quaternion.identity);
+                thisObject.AddComponent<Virus>().SetParams();
                 break;
         }
     }
@@ -106,17 +99,17 @@ public class GameTool : MonoBehaviour
 
                         if (toolMod == 1)
                         {
-                            CreateNewObject(hit.point, toolMod - 1, "bacteria", "bacteria_" + PlayerPrefs.GetInt("CountBacteria"), 10, 2000, 5.0f, 120, 500);
+                            CreateNewObject(hit.point, toolMod - 1);
                             PlayerPrefs.SetInt("CountBacteria", PlayerPrefs.GetInt("CountBacteria") + 1);
                         }
                         else if (toolMod == 2)
                         {
-                            CreateNewObject(hit.point, toolMod - 1, "cianobacteria", "cianobacteria_" + PlayerPrefs.GetInt("CountCianobacteria"), 10, 1000, 3.0f, 120, 350);
+                            CreateNewObject(hit.point, toolMod - 1);
                             PlayerPrefs.SetInt("CountCianobacteria", PlayerPrefs.GetInt("CountCianobacteria") + 1);
                         }
                         else if (toolMod == 3)
                         {
-                            CreateNewObject(hit.point, toolMod - 1, "virus", "virus_" + PlayerPrefs.GetInt("CountVirus"), 30, 1000, 1.0f, 100, 150);
+                            CreateNewObject(hit.point, toolMod - 1);
                             PlayerPrefs.SetInt("CountVirus", PlayerPrefs.GetInt("CountVirus") + 1);
                         }
                     }

@@ -5,7 +5,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637652374025735565
+      ticks: 637900687999395831
     m_Hash: 4015699118
   m_LockFileStatus:
     m_FilePath: D:/COS/Packages/packages-lock.json
@@ -13,7 +13,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637794926393343881
+      ticks: 637900692397761461
     m_Hash: 1996970841
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
@@ -75,11 +75,21 @@ m_PackageAssets:
         - 1.14.7
         - 1.14.9
         - 1.14.12
+        - 1.14.13
+        - 1.14.15
+        - 1.14.16
+        - 1.14.17
+        - 1.14.18
         - 1.15.1
         - 1.15.4
         - 1.15.7
         - 1.15.9
         - 1.15.12
+        - 1.15.13
+        - 1.15.15
+        - 1.15.16
+        - 1.15.17
+        - 1.15.18
         - 2.0.0-preview.6
         - 2.0.0-preview.8
         - 2.0.0-preview.15
@@ -103,6 +113,11 @@ m_PackageAssets:
         - 1.14.7
         - 1.14.9
         - 1.14.12
+        - 1.14.13
+        - 1.14.15
+        - 1.14.16
+        - 1.14.17
+        - 1.14.18
         - 2.0.0-preview.6
         - 2.0.0-preview.8
         - 2.0.0-preview.15
@@ -204,6 +219,8 @@ m_PackageAssets:
         - 3.0.9
         - 3.0.10
         - 3.0.12
+        - 3.0.13
+        - 3.0.14
         compatible:
         - 1.0.2
         - 1.0.6
@@ -233,6 +250,8 @@ m_PackageAssets:
         - 3.0.9
         - 3.0.10
         - 3.0.12
+        - 3.0.13
+        - 3.0.14
         verified: 2.0.7
       dependencies:
       - name: com.unity.test-framework
@@ -306,6 +325,7 @@ m_PackageAssets:
         - 2.0.11
         - 2.0.12
         - 2.0.14
+        - 2.0.15
         compatible:
         - 1.0.2
         - 1.0.3
@@ -324,7 +344,8 @@ m_PackageAssets:
         - 2.0.11
         - 2.0.12
         - 2.0.14
-        verified: 2.0.14
+        - 2.0.15
+        verified: 2.0.15
       dependencies:
       - name: com.unity.test-framework
         version: 1.1.9
@@ -392,6 +413,7 @@ m_PackageAssets:
         - 1.2.2
         - 1.2.3
         - 1.2.4
+        - 1.2.5
         compatible:
         - 1.0.2
         - 1.0.3
@@ -405,7 +427,8 @@ m_PackageAssets:
         - 1.2.2
         - 1.2.3
         - 1.2.4
-        verified: 1.2.4
+        - 1.2.5
+        verified: 1.2.5
       dependencies: []
       resolvedDependencies: []
       keywords: []
@@ -481,6 +504,8 @@ m_PackageAssets:
         - 1.1.27
         - 1.1.29
         - 1.1.30
+        - 1.1.31
+        - 2.0.1-exp.1
         - 2.0.1-pre.12
         - 2.0.1-pre.18
         compatible:
@@ -490,9 +515,11 @@ m_PackageAssets:
         - 1.1.27
         - 1.1.29
         - 1.1.30
+        - 1.1.31
+        - 2.0.1-exp.1
         - 2.0.1-pre.12
         - 2.0.1-pre.18
-        verified: 1.1.30
+        verified: 1.1.31
       dependencies:
       - name: com.unity.ext.nunit
         version: 1.0.6
@@ -632,6 +659,7 @@ m_PackageAssets:
         - 2.1.6
         - 2.2.0-preview.1
         - 2.2.0-preview.2
+        - 2.2.0-preview.3
         - 3.0.0-preview.1
         - 3.0.0-preview.3
         - 3.0.0-preview.4
@@ -651,6 +679,7 @@ m_PackageAssets:
         - 3.0.6
         - 3.2.0-pre.1
         - 3.2.0-pre.2
+        - 3.2.0-pre.3
         - 4.0.0-pre.1
         compatible:
         - 3.0.1
@@ -660,6 +689,7 @@ m_PackageAssets:
         - 3.0.6
         - 3.2.0-pre.1
         - 3.2.0-pre.2
+        - 3.2.0-pre.3
         verified: 3.0.6
       dependencies:
       - name: com.unity.ugui
@@ -788,6 +818,8 @@ m_PackageAssets:
         - 1.6.4
         - 1.7.0-pre.1
         - 1.7.0-pre.2
+        - 1.7.0
+        - 1.7.1
         compatible:
         - 1.4.6
         - 1.4.7
@@ -816,6 +848,8 @@ m_PackageAssets:
         - 1.6.4
         - 1.7.0-pre.1
         - 1.7.0-pre.2
+        - 1.7.0
+        - 1.7.1
         verified: 1.4.8
       dependencies:
       - name: com.unity.modules.director
@@ -2687,9 +2721,21 @@ m_PackageAssets:
       errors: []
       versions:
         all:
+        - 0.1.5-preview
+        - 0.1.6-preview
+        - 0.1.9-preview
+        - 1.0.0
+        - 1.0.5
         - 1.0.6
+        - 2.0.2
         compatible:
+        - 0.1.5-preview
+        - 0.1.6-preview
+        - 0.1.9-preview
+        - 1.0.0
+        - 1.0.5
         - 1.0.6
+        - 2.0.2
         verified: 1.0.6
       dependencies: []
       resolvedDependencies: []
@@ -2709,7 +2755,7 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 0
+      datePublishedTicks: 637429759280000000
       documentationUrl: 
       hasRepository: 1
       repository:
@@ -2731,7 +2777,7 @@ m_PackageAssets:
         email: 
         url: 
       category: 
-      type: library
+      type: 
       description: 'Newtonsoft Json for use in Unity projects and Unity packages.
         Currently synced to version 12.0.2.
 
@@ -2746,12 +2792,34 @@ m_PackageAssets:
       errors: []
       versions:
         all:
+        - 1.0.0-preview.2
+        - 1.0.0-preview.3
+        - 1.0.0-preview.4
+        - 1.0.1-preview.1
         - 1.1.2
+        - 2.0.0-preview
+        - 2.0.0-preview.1
+        - 2.0.0-preview.2
         - 2.0.0
+        - 2.0.1-preview.1
+        - 2.0.2
+        - 3.0.1
+        - 3.0.2
         compatible:
+        - 1.0.0-preview.2
+        - 1.0.0-preview.3
+        - 1.0.0-preview.4
+        - 1.0.1-preview.1
         - 1.1.2
+        - 2.0.0-preview
+        - 2.0.0-preview.1
+        - 2.0.0-preview.2
         - 2.0.0
-        verified: 2.0.0
+        - 2.0.1-preview.1
+        - 2.0.2
+        - 3.0.1
+        - 3.0.2
+        verified: 2.0.2
       dependencies: []
       resolvedDependencies: []
       keywords: []
@@ -2767,7 +2835,7 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 0
+      datePublishedTicks: 637237898320000000
       documentationUrl: 
       hasRepository: 1
       repository:

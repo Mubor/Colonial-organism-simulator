@@ -4,103 +4,62 @@ using UnityEngine;
 
 public class Virus : MonoBehaviour
 {
-    protected GameObject cell;
-    protected GameObject GenerationPlace;
+    protected Material deadCellMaterial;
 
     protected int Speed { get; set; }
-    protected int DirectionChange { get; set; }
     public float HP { get; set; }
-    float hpChanger;
-    int numPrefab;
-    Quaternion direction;
-    bool NewDirection;
-    // Start is called before the first frame update
+
+    bool isAlive;
+
     void Start()
     {
-        //setting variables
-        numPrefab = 2;
+        deadCellMaterial = Resources.LoadAll<Material>("Materials")[6];
         Speed = PlayerPrefs.GetInt("SpeedVirus");
-        hpChanger = -0.25f;
-        DirectionChange = 1000;
-        GenerationPlace = GameObject.Find("GenerationPlace");
+        isAlive = true;
 
-        //Add physic and cell transform
-        cell.transform.localScale = new Vector3(1f, 1f, 1f);
-        cell.AddComponent<Movement>().setParams(Speed);
-        cell.AddComponent<ColliderEvent>().Params(cell, false);
+        gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+        gameObject.AddComponent<Movement>().setParams(Speed);
+        gameObject.AddComponent<ColliderEvent>().Params(false);
     }
     private void FixedUpdate()
     {
         //Prefab changing
-        //if (Camera.main.transform.position.y < 150.0f && PlayerPrefs.GetInt("NeedDoDetailingVir") == 0)
-        //{
-        //    DetailedPrefabs();
-        //    PlayerPrefs.SetInt("NeedDoSimplificationVir", 0);
-        //}
-        //else if (Camera.main.transform.position.y >= 150.0f && PlayerPrefs.GetInt("NeedDoSimplificationVir") == 0)
-        //{
-        //    SimplePrefabs();
-        //    PlayerPrefs.SetInt("NeedDoDetailingVir", 0);
-        //}
-        //Hp changing
-        HP += hpChanger;
+        if (Camera.main.transform.position.y < 150.0f && PlayerPrefs.GetInt("NeedDoDetailingVir") == 0)
+        {
+            gameObject.transform.GetChild(2).gameObject.SetActive(true);
+            PlayerPrefs.SetInt("NeedDoSimplificationVir", 0);
+        }
+        else if (Camera.main.transform.position.y >= 150.0f && PlayerPrefs.GetInt("NeedDoSimplificationVir") == 0)
+        {
+            gameObject.transform.GetChild(2).gameObject.SetActive(false);
+            PlayerPrefs.SetInt("NeedDoDetailingVir", 0);
+        }
+
+        if(isAlive)
+            HP += -0.25f;
     }
     void Update()
     {
-        if (Time.timeScale != 0)
+        if (Time.timeScale != 0 && isAlive)
         {
             if (HP <= 0)
-                DeathOfCell(cell);
+                DeathOfCell();
         }
     }
-    void DeathOfCell(GameObject thisObject)
+    void DeathOfCell()
     {
-        if (Camera.main.transform.position.y >= 150.0f)
-            GenerationPlace.GetComponent<CreateNewObj>().RecreateObjDead(thisObject, thisObject.name + "_Dead", "virusDead", numPrefab, false); //bacteriaDead
-        else
-            GenerationPlace.GetComponent<CreateNewObj>().RecreateObjDead(thisObject, thisObject.name + "_Dead", "virusDeadDetailed", numPrefab, true);  //bacteriaDetailed   == bacteria + DeadDetailed
+        Destroy(gameObject.GetComponent<Movement>());
+        gameObject.transform.GetChild(1).gameObject.GetComponent<MeshRenderer>().material = deadCellMaterial;
+        isAlive = false;
     }
 
-    //void DetailedPrefabs()
-    //{
-    //    switch (this.cell.tag)
-    //    {
-    //        case "virus":
-    //            PlayerPrefs.SetInt("NeedDoDetailingVir", 0);
-    //            break;
-    //        default:
-    //            //print("U do some mistake!");
-    //            PlayerPrefs.SetInt("NeedDoDetailingVir", 1);
-    //            break;
-    //    }
-    //    if (PlayerPrefs.GetInt("NeedDoDetailingVir") == 0)
-    //        GenerationPlace.GetComponent<CreateNewObj>().RecreateObj(this.cell, this.cell.name, this.cell.tag + "Detailed", numPrefab, true, HP, false, cell.GetComponent<MotionSphere>().direction, 0);
-    //}
-    //void SimplePrefabs()
-    //{
-    //    switch (this.cell.tag)
-    //    {
-    //        case "virusDetailed":
-    //            PlayerPrefs.SetInt("NeedDoSimplificationVir", 0);
-    //            break;
-
-    //        default:
-    //            //print("U do some mistake!");
-    //            PlayerPrefs.SetInt("NeedDoSimplificationVir", 1);
-    //            break;
-    //    }
-    //    if (PlayerPrefs.GetInt("NeedDoSimplificationVir") == 0)
-    //        GenerationPlace.GetComponent<CreateNewObj>().RecreateObj(this.cell, this.cell.name, this.cell.tag.Remove(this.cell.tag.Length - 8), numPrefab, false, HP, false, cell.GetComponent<MotionSphere>().direction, 0);
-    //}
-
-    public void SetParams(GameObject obj, string tag, string name, float hp, bool newdirection, Quaternion direction)
+    public void SetParams()
     {
-        //setting params
-        cell = obj;
-        cell.tag = tag;
-        cell.name = name;
-        HP = hp;
-        NewDirection = newdirection;
-        this.direction = direction;
+        PlayerPrefs.SetInt("CountVirus", PlayerPrefs.GetInt("CountVirus") + 1);
+
+        gameObject.name = "virus_" + PlayerPrefs.GetInt("CountVirus");
+        gameObject.transform.Rotate(0, Random.Range(-180, 180), 0);
+
+        HP = Random.Range(50f, 100f);
     }
 }

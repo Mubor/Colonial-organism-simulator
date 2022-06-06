@@ -17,28 +17,16 @@ public class CameraControl : MonoBehaviour
 
     void Start()
     {
-        PlayerPrefs.SetInt("NeedDoDetailingDead", 0);
-        PlayerPrefs.SetInt("NeedDoSimplificationDead", 0);
         PlayerPrefs.SetInt("NeedDoDetailingBac", 0);
         PlayerPrefs.SetInt("NeedDoSimplificationBac", 0);
         PlayerPrefs.SetInt("NeedDoDetailingCiano", 0);
         PlayerPrefs.SetInt("NeedDoSimplificationCiano", 0);
         PlayerPrefs.SetInt("NeedDoDetailingVir", 0);
         PlayerPrefs.SetInt("NeedDoSimplificationVir", 0);
-        PlayerPrefs.SetInt("NeedDoDetailingInf", 0);
-        PlayerPrefs.SetInt("NeedDoSimplificationInf", 0);
-        PlayerPrefs.SetInt("NeedDoDetailingEu", 0);
-        PlayerPrefs.SetInt("NeedDoSimplificationEu", 0);
         PlayerPrefs.SetInt("CountBacteria", 0);
         PlayerPrefs.SetInt("CountCianobacteria", 0);
         PlayerPrefs.SetInt("CountVirus", 0);
         PlayerPrefs.SetInt("CountEukaryote", 0);
-
-        //PlayerPrefs.SetInt("CountSpawn", 100);
-        //PlayerPrefs.SetInt("SpeedBacteria", 10);
-        //PlayerPrefs.SetInt("SpeedCiano", 10);
-        //PlayerPrefs.SetInt("SpeedVirus", 10);
-        //PlayerPrefs.SetInt("SpeedEu", 10);
 
         canFollow = false;
         prevHeight = transform.position.y;
@@ -106,7 +94,6 @@ public class CameraControl : MonoBehaviour
         // Слежение камеры за обьектом
         if (canFollow && objectToFollow != null)
         {
-            //print("I am following " + objectToFollow.name);
             Vector3 pos = new Vector3(objectToFollow.transform.position.x, transform.position.y, objectToFollow.transform.position.z);
             transform.position = Vector3.Lerp(transform.position, pos, speed);
 
@@ -116,15 +103,7 @@ public class CameraControl : MonoBehaviour
                     currentHP.text = "Current Energy: " + objectToFollow.GetComponent<Bacteria>().HP.ToString("F1");
                     break;
 
-                case "bacteriaDetailed":
-                    currentHP.text = "Current Energy: " + objectToFollow.GetComponent<Bacteria>().HP.ToString("F1");
-                    break;
-
                 case "cianobacteria":
-                    currentHP.text = "Current Energy: " + objectToFollow.GetComponent<CianoBacteria>().HP.ToString("F1");
-                    break;
-
-                case "cianobacteriaDetailed":
                     currentHP.text = "Current Energy: " + objectToFollow.GetComponent<CianoBacteria>().HP.ToString("F1");
                     break;
 
@@ -132,32 +111,10 @@ public class CameraControl : MonoBehaviour
                     currentHP.text = "Current Energy: " + objectToFollow.GetComponent<Virus>().HP.ToString("F1");
                     break;
 
-                case "virusDetailed":
-                    currentHP.text = "Current Energy: " + objectToFollow.GetComponent<Virus>().HP.ToString("F1");
-                    break;
-
-                case "preEukaryote":
-                    currentHP.text = "Current Energy: " + objectToFollow.GetComponent<PreEukaryote>().HP.ToString("F1");
-                    break;
-
-                case "preEukaryoteDetailed":
-                    currentHP.text = "Current Energy: " + objectToFollow.GetComponent<PreEukaryote>().HP.ToString("F1");
-                    break;
-
-                case "eukaryote":
-                    currentHP.text = "Current Energy: " + objectToFollow.GetComponent<Eukaryote>().HP.ToString("F1");
-                    break;
-
-                case "eukaryoteDetailed":
-                    currentHP.text = "Current Energy: " + objectToFollow.GetComponent<Eukaryote>().HP.ToString("F1");
-                    break;
-
                 default:
                     currentHP.text = "Current Energy: -";
                     break;
             }
-
-
         }
         else
             currentHP.text = "Current Energy: -";
@@ -172,10 +129,6 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
-        //if (Name != null)
-        //    objectToFollow = GameObject.Find(Name);
-
-        // обработка нажатия клавиши для слежения
         if (Time.timeScale != 0)
         {
             if (Input.GetMouseButtonDown(0))
